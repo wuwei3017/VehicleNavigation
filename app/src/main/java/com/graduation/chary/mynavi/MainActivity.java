@@ -17,25 +17,26 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import android.speech.RecognitionListener;
-import android.widget.Toast;
 
 import com.graduation.chary.asr.AsrDialog;
+import com.graduation.chary.asr.TTS;
 
 import java.util.ArrayList;
 
-import chary.nyist.com.baidumapdemo.NaviUtils;
+//import chary.nyist.com.baidumapdemo.NaviUtils;
 
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
-    NaviUtils naviUtils = new NaviUtils(MainActivity.this);
+//    NaviUtils naviUtils = new NaviUtils(MainActivity.this);
     AsrDialog dialog = new AsrDialog(MainActivity.this);
+
+
+    TTS tts = new TTS(this);
 
     private Button mDb06ll = null;
     private Button btn = null;
     private SpeechRecognizer speechRecognizer;
-//    private AsrDialog.SpeechRecognizerCallBack callBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +48,14 @@ public class MainActivity extends Activity {
 
         initPermission();
 
-       initListener();
+        tts.initialEnv();
+        tts.initialTts();
 
-        if (naviUtils.initDirs()) {
-            naviUtils.initNavi();
-        }
+        initListener();
+
+//        if (naviUtils.initDirs()) {
+//            naviUtils.initNavi();
+//        }
     }
 
     private void initListener() {
@@ -59,17 +63,31 @@ public class MainActivity extends Activity {
         mDb06ll.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                naviUtils.naviEnable();
+//                naviUtils.naviEnable();
             }
         });
 
         btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.Start();
+//                dialog.Start();
+//                tts.speak("在呢");
+                tts.startWakeup();
             }
         });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        tts.Stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     /**
      * android 6.0 以上需要动态申请权限
      */
