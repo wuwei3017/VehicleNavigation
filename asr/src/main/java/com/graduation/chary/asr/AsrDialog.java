@@ -2,6 +2,7 @@ package com.graduation.chary.asr;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -9,7 +10,7 @@ import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
-
+//
 import com.baidu.speech.VoiceRecognitionService;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 
@@ -17,16 +18,27 @@ import java.util.ArrayList;
 
 public class AsrDialog {
     public static final String TAG = AsrDialog.class.getSimpleName();
-
+    SpeechRecognizerCallBack callBack;
     Activity activity = null;
-
+    Context context = null;
+    String result = null;
     private SpeechRecognizer speechRecognizer;
-    private SpeechRecognizerCallBack callBack;
 
-    public AsrDialog(Activity act){
-        this.activity = act;
+
+
+
+    public AsrDialog(Context context){
+        this.context = context;
     }
 
+
+    /**
+     * 设置回调接口
+     * @param callBack 是SpeechRecognizerCallBack对象
+     */
+    public void setCallBack(SpeechRecognizerCallBack callBack)    {
+        this.callBack = callBack;
+    }
 
 
     /**
@@ -34,7 +46,7 @@ public class AsrDialog {
      */
     public void Start()
     {
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(activity, new ComponentName(activity, VoiceRecognitionService.class));
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context, new ComponentName(context, VoiceRecognitionService.class));
         // 注册监听器
         speechRecognizer.setRecognitionListener(new MyRecognitionListener());
 
@@ -111,8 +123,10 @@ public class AsrDialog {
         public void onResults(Bundle results) {
 
             String text =  results.get("results_recognition").toString().replace("]", "").replace("[", "");
-//            callBack.getResult(text);
-            Toast.makeText(activity, "text : "+ text, Toast.LENGTH_SHORT).show();
+            callBack.getResult(text);
+            result =  text;
+            Toast.makeText(context, "text : "+ text, Toast.LENGTH_SHORT).show();
+
         }
         /**
          * 识别临时结果，返回临时识别结果，将会回调此方法。

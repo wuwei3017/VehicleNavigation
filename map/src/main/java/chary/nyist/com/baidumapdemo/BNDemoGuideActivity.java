@@ -12,6 +12,7 @@ import com.baidu.navisdk.adapter.BaiduNaviCommonModule;
 import com.baidu.navisdk.adapter.NaviModuleFactory;
 import com.baidu.navisdk.adapter.NaviModuleImpl;
 import com.baidu.navisdk.adapter.BNRoutePlanNode.CoordinateType;
+//import com.graduation.chary.asr.AsrDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,7 +34,7 @@ public class BNDemoGuideActivity extends Activity {
     private final String TAG = BNDemoGuideActivity.class.getName();
     private BNRoutePlanNode mBNRoutePlanNode = null;
     private BaiduNaviCommonModule mBaiduNaviCommonModule = null;
-
+   // AsrDialog asrDialog = new AsrDialog(this);
     /*
      * 对于导航模块有两种方式来实现发起导航。 1：使用通用接口来实现 2：使用传统接口来实现
      *

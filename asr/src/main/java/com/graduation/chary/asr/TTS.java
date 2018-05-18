@@ -48,10 +48,11 @@ public class TTS {
     private static final String ENGLISH_SPEECH_MALE_MODEL_NAME = "bd_etts_speech_male_en.dat";
     private static final String ENGLISH_TEXT_MODEL_NAME = "bd_etts_text_en.dat";
     private EventManager mWpEventManager = null;
-
+    AsrDialog asrDialog = null;
 
     public TTS(Context context) {
         this.context = context;
+        asrDialog = new AsrDialog(context);
     }
 
 
@@ -78,10 +79,7 @@ public class TTS {
                         e.printStackTrace();
                     }
 
-                    //txtResult.append("唤醒成功, 唤醒词: " + word + "\r\n");
-
-
-//                    speak("在呢");
+                    speak("小爷我在呢");
                     //延时3秒，防止语音合成的内容又被语音识别
                     try {
                         sleep(3000);
@@ -91,7 +89,7 @@ public class TTS {
                     //关闭唤醒 TODO
                     //mWpEventManager.send("wp.stop", null, null, 0, 0);
 
-//                    start();//TODO some bugs
+                    asrDialog.Start();
 
                 } else if ("wp.exit".equals(s)) {
                     mWpEventManager.send("wp.stop", null, null, 0, 0);
@@ -102,7 +100,7 @@ public class TTS {
 
         // 3. 通知唤醒管理器, 启动唤醒功能
         HashMap params = new HashMap();
-        params.put("kws-file", "assets:///WakeUpDemo.bin");
+        params.put("kws-file", "assets:///WakeUp.bin");
         mWpEventManager.send("wp.start", new JSONObject(params).toString(), null, 0, 0);
     }
 
@@ -194,6 +192,7 @@ public class TTS {
         copyFromAssetsToSdcard(false, SPEECH_MALE_MODEL_NAME, mSampleDirPath + "/" + SPEECH_MALE_MODEL_NAME);
         copyFromAssetsToSdcard(false, TEXT_MODEL_NAME, mSampleDirPath + "/" + TEXT_MODEL_NAME);
         copyFromAssetsToSdcard(false, LICENSE_FILE_NAME, mSampleDirPath + "/" + LICENSE_FILE_NAME);
+
         copyFromAssetsToSdcard(false, "english/" + ENGLISH_SPEECH_FEMALE_MODEL_NAME, mSampleDirPath + "/"
                 + ENGLISH_SPEECH_FEMALE_MODEL_NAME);
         copyFromAssetsToSdcard(false, "english/" + ENGLISH_SPEECH_MALE_MODEL_NAME, mSampleDirPath + "/"

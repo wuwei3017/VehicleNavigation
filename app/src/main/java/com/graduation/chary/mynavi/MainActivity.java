@@ -30,13 +30,14 @@ public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
 //    NaviUtils naviUtils = new NaviUtils(MainActivity.this);
     AsrDialog dialog = new AsrDialog(MainActivity.this);
-
+    AsrDialog.SpeechRecognizerCallBack callBack = null;
 
     TTS tts = new TTS(this);
 
     private Button mDb06ll = null;
     private Button btn = null;
     private SpeechRecognizer speechRecognizer;
+    private Button btn_loc = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mDb06ll = (Button) findViewById(R.id.button);
         btn = (Button)findViewById(R.id.btn_asr);
+        btn_loc = (Button)findViewById(R.id.btn_loc);
 
         initPermission();
 
@@ -70,22 +72,18 @@ public class MainActivity extends Activity {
         btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                dialog.Start();
-//                tts.speak("在呢");
-                tts.startWakeup();
+//                dialog.Start();//识别测试
+//                tts.speak("在呢");//tts测试
+                  tts.startWakeup();//唤醒测试
+                dialog.setCallBack(callBack);
             }
         });
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        tts.Stop();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
+        tts.Stop();
     }
 
     /**
