@@ -1,6 +1,7 @@
 package chary.nyist.com.baidumapdemo;
 
 import com.baidu.navisdk.adapter.BNaviCommonParams;
+//import com.graduation.chary.asr.TTS;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class BNEventHandler {
+
+
 
     private BNEventDialog mEventDialog = null;
 
@@ -61,6 +64,7 @@ public class BNEventHandler {
                 (bundle == null ? "" : bundle.toString())));
         switch (what) {
             case BNaviCommonParams.MessageType.EVENT_NAVIGATING_STATE_BEGIN:
+
                 break;
             case BNaviCommonParams.MessageType.EVENT_NAVIGATING_STATE_END:
                 break;

@@ -51,7 +51,7 @@ public class AsrDialog {
         speechRecognizer.setRecognitionListener(new MyRecognitionListener());
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
+//        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"zh-CN");
         speechRecognizer.startListening(intent);
     }
@@ -123,9 +123,10 @@ public class AsrDialog {
         public void onResults(Bundle results) {
 
             String text =  results.get("results_recognition").toString().replace("]", "").replace("[", "");
-            callBack.getResult(text);
-            result =  text;
-            Toast.makeText(context, "text : "+ text, Toast.LENGTH_SHORT).show();
+            //callBack.getResult(text);
+            String text1 =  results.get("results_recognition").toString();
+            //result =  text.split(",");
+            Toast.makeText(context, "text : "+ text1, Toast.LENGTH_SHORT).show();
 
         }
         /**

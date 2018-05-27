@@ -26,4 +26,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/httpmime-4.1.2.jar')
+    compile project(path: ':asr')
 }

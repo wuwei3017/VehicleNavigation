@@ -60,8 +60,6 @@ public class BNEventDialog extends Dialog {
         window.setGravity(Gravity.TOP | Gravity.LEFT);
 
 
-//        mEnlargeImg = (Radiobutton) layout.findViewById(R.id.radioButton);
-
     }
 
     public void updateLocateState(boolean hasLocate) {

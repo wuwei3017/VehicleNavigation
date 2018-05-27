@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BaiduMapDemo</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>

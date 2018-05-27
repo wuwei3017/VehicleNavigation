@@ -70,26 +70,27 @@ public class TTS {
                 Toast.makeText(context, String.format("event: name=%s, params=%s", s, s1), Toast.LENGTH_SHORT).show();
 
                 if ("wp.data".equals(s)) { // 每次唤醒成功, 将会回调name=wp.data的时间, 被激活的唤醒词在params的word字段
-                    JSONObject json = null;
-                    try {
-                        json = new JSONObject(s1);
-                        String word = json.getString("word");
-                        Toast.makeText(context, "唤醒成功:"+word, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+//                    JSONObject json = null;
+//                    try {
+//                        json = new JSONObject(s1);
+//                        String word = json.getString("word");
+//                        Toast.makeText(context, "唤醒成功:"+word, Toast.LENGTH_SHORT).show();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
 
-                    speak("小爷我在呢");
+                    int ret = speak("请尽情吩咐妲己 主人");
                     //延时3秒，防止语音合成的内容又被语音识别
-                    try {
+                     try {
                         sleep(3000);
-                    } catch (InterruptedException e) {
+                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                     }
+                    asrDialog.Start();
                     //关闭唤醒 TODO
                     //mWpEventManager.send("wp.stop", null, null, 0, 0);
 
-                    asrDialog.Start();
+
 
                 } else if ("wp.exit".equals(s)) {
                     mWpEventManager.send("wp.stop", null, null, 0, 0);
@@ -167,6 +168,12 @@ public class TTS {
                 "mqAfMorEf6a6QdKSPtuE3e4wKHGKowZo");
         // 发音人
         this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "4");
+        // 合成音量 默认 5
+        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME, "9");
+        // 设置合成的语速，0-9 ，默认 5
+        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "5");
+        // 设置合成的语调，0-9 ，默认 5
+        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_PITCH, "5");
         // 设置Mix模式的合成策略
         this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);
         // 授权检测接口(只是通过AuthInfo进行检验授权是否成功。)
@@ -251,11 +258,12 @@ public class TTS {
             }
         }
     }
-    public void speak(String text) {
+    public int speak(String text) {
 
         int result = this.mSpeechSynthesizer.speak(text);
         if (result < 0) {
             Toast.makeText(context,"error,please look up error code in doc or URL:http://yuyin.baidu.com/docs/tts/122 ", Toast.LENGTH_LONG).show();
         }
+        return 1;
     }
 }

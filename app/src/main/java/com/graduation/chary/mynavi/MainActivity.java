@@ -3,8 +3,6 @@ package com.graduation.chary.mynavi;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,12 +21,14 @@ import com.graduation.chary.asr.TTS;
 
 import java.util.ArrayList;
 
-//import chary.nyist.com.baidumapdemo.NaviUtils;
+import chary.nyist.com.baidumapdemo.MapActivity;
+
+import chary.nyist.com.baidumapdemo.NaviUtils;
 
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
-//    NaviUtils naviUtils = new NaviUtils(MainActivity.this);
+    NaviUtils naviUtils = new NaviUtils(MainActivity.this);
     AsrDialog dialog = new AsrDialog(MainActivity.this);
     AsrDialog.SpeechRecognizerCallBack callBack = null;
 
@@ -55,9 +55,9 @@ public class MainActivity extends Activity {
 
         initListener();
 
-//        if (naviUtils.initDirs()) {
-//            naviUtils.initNavi();
-//        }
+        if (naviUtils.initDirs()) {
+            naviUtils.initNavi();
+        }
     }
 
     private void initListener() {
@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         mDb06ll.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-//                naviUtils.naviEnable();
+                naviUtils.naviEnable();
             }
         });
 
@@ -75,7 +75,15 @@ public class MainActivity extends Activity {
 //                dialog.Start();//识别测试
 //                tts.speak("在呢");//tts测试
                   tts.startWakeup();//唤醒测试
-                dialog.setCallBack(callBack);
+                //dialog.setCallBack(callBack);
+            }
+        });
+
+        btn_loc.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this , MapActivity.class);
+                startActivity(intent);
             }
         });
     }

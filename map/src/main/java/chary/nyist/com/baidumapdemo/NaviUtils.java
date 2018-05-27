@@ -41,7 +41,7 @@ import android.widget.Toast;
 public class NaviUtils extends Activity {
 
     Activity activity = null;
-
+    BNDemoGuideActivity bnDemoGuideActivity = new BNDemoGuideActivity();
     public static List<Activity> activityList = new LinkedList<Activity>();
 
     private static final String APP_FOLDER_NAME = "BNSDKSimpleDemo";
@@ -226,10 +226,19 @@ public class NaviUtils extends Activity {
             list.add(eNode);
 
             // 开发者可以使用旧的算路接口，也可以使用新的算路接口,可以接收诱导信息等
-            BaiduNaviManager.getInstance().launchNavigator(activity, list, 1, true, new DemoRoutePlanListener(sNode));
+            BaiduNaviManager.getInstance().launchNavigator(activity, list, 1, true, new DemoRoutePlanListener(sNode),
+                    eventListerner);
         }
     }
 
+    BaiduNaviManager.NavEventListener eventListerner = new BaiduNaviManager.NavEventListener() {
+
+        @Override
+        public void onCommonEventCall(int what, int arg1, int arg2, Bundle bundle) {
+//            BNEventHandler.getInstance().handleNaviEvent(what, arg1, arg2, bundle);
+            bnDemoGuideActivity.handleNaviEvent(what, arg1, arg2, bundle);
+        }
+    };
 
     public class DemoRoutePlanListener implements RoutePlanListener {
 
@@ -277,7 +286,7 @@ public class NaviUtils extends Activity {
         BNaviSettingManager.setIsAutoQuitWhenArrived(true);
         Bundle bundle = new Bundle();
         // 必须设置APPID，否则会静音
-//        bundle.putString(BNCommonSettingParam.TTS_APP_ID, "10504642");
+        bundle.putString(BNCommonSettingParam.TTS_APP_ID, "10874725");
         BNaviSettingManager.setNaviSdkParam(bundle);
     }
 

@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/asr" />
             <option value="$PROJECT_DIR$/map" />
+            <option value="$PROJECT_DIR$/unit" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
