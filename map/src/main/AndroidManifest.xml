@@ -26,14 +26,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!-- 摄影机 -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -42,7 +39,6 @@
         <meta-data android:name="com.baidu.speech.APP_ID" android:value="10504642"/>
         <meta-data android:name="com.baidu.speech.API_KEY" android:value="MlUS1hDv5iU0CfYg4PPdG9lGCqbIotsM"/>
         <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="mqAfMorEf6a6QdKSPtuE3e4wKHGKowZo"/>
-        <service android:name="com.baidu.speech.VoiceRecognitionService" android:exported="false" />
 
         <activity
             android:name=".BNDemoGuideActivity"
@@ -57,7 +53,8 @@
 
         <activity
             android:name=".MapActivity"
-            android:label="@string/title_activity_map"></activity>
+            android:label="@string/title_activity_map"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

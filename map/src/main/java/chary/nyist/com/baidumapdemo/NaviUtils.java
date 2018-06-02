@@ -43,6 +43,9 @@ public class NaviUtils extends Activity {
     Activity activity = null;
     BNDemoGuideActivity bnDemoGuideActivity = new BNDemoGuideActivity();
     public static List<Activity> activityList = new LinkedList<Activity>();
+    RouteNode snode = null;
+    RouteNode mnode = null;
+    RouteNode enode = null;
 
     private static final String APP_FOLDER_NAME = "BNSDKSimpleDemo";
 
@@ -57,14 +60,25 @@ public class NaviUtils extends Activity {
 
 
     private final static String authBaseArr[] =
-            { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE };
+            { Manifest.permission.WRITE_EXTERNAL_STORAGE,  Manifest.permission.READ_PHONE_STATE };
     private final static String authComArr[] = { Manifest.permission.READ_PHONE_STATE };
     private final static int authBaseRequestCode = 1;
     private final static int authComRequestCode = 2;
 
     private boolean hasInitSuccess = false;
 
-    public void naviEnable(){
+    public void naviEnable(RouteNode node1, RouteNode node2){
+        snode = node1;
+        enode = node2;
+        if(BaiduNaviManager.isNaviInited()){
+            routeplanToNavi(CoordinateType.BD09LL);
+        }
+    }
+
+    public void naviEnable(RouteNode node1, RouteNode node2, RouteNode node3){
+        snode = node1;
+        enode = node2;
+        mnode = node3;
         if(BaiduNaviManager.isNaviInited()){
             routeplanToNavi(CoordinateType.BD09LL);
         }
@@ -216,13 +230,20 @@ public class NaviUtils extends Activity {
 
         BNRoutePlanNode sNode = null;
         BNRoutePlanNode eNode = null;
+        BNRoutePlanNode mNode = null;
 
-        sNode = new BNRoutePlanNode(116.30784537597782, 40.057009624099436, "百度大厦", null, coType);
-        eNode = new BNRoutePlanNode(116.40386525193937, 39.915160800132085, "北京天安门", null, coType);
+        sNode = new BNRoutePlanNode(snode.getLongitude(), snode.getLatitude(), " ", null, coType);
+        eNode = new BNRoutePlanNode(enode.getLongitude(), enode.getLatitude(), " ", null, coType);
 
+        if (mnode != null){
+            mNode = new BNRoutePlanNode(mnode.getLongitude(), mnode.getLatitude(), " ", null, coType);
+        }
         if (sNode != null && eNode != null) {
             List<BNRoutePlanNode> list = new ArrayList<BNRoutePlanNode>();
             list.add(sNode);
+            if (mNode != null) {
+                list.add(mNode);
+            }
             list.add(eNode);
 
             // 开发者可以使用旧的算路接口，也可以使用新的算路接口,可以接收诱导信息等

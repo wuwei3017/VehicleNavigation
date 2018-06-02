@@ -5,6 +5,7 @@ package com.graduation.chary.asr;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ import static java.lang.Thread.sleep;
 public class TTS {
     private static final String TAG = "TTS";
     private SpeechSynthesizer mSpeechSynthesizer = null;
-
+    private Handler handler = null;
     private Context context;
     protected String mSampleDirPath;
     private static final String SAMPLE_DIR_NAME = "baiduTTS";
@@ -50,9 +51,9 @@ public class TTS {
     private EventManager mWpEventManager = null;
     AsrDialog asrDialog = null;
 
-    public TTS(Context context) {
+    public TTS(Context context, Handler handler) {
         this.context = context;
-        asrDialog = new AsrDialog(context);
+        asrDialog = new AsrDialog(context, handler);
     }
 
 
@@ -79,7 +80,7 @@ public class TTS {
 //                        e.printStackTrace();
 //                    }
 
-                    int ret = speak("请尽情吩咐妲己 主人");
+                    int ret = speak("有什么可以帮助你的");
                     //延时3秒，防止语音合成的内容又被语音识别
                      try {
                         sleep(3000);
@@ -108,6 +109,9 @@ public class TTS {
 
     public void Stop () {
         // 停止唤醒监听
+        if (mWpEventManager == null){
+            return;
+        }
         mWpEventManager.send("wp.stop", null, null, 0, 0);
     }
 

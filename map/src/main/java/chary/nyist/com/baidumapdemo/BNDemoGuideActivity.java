@@ -1,5 +1,6 @@
 package chary.nyist.com.baidumapdemo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,10 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -40,7 +43,8 @@ public class BNDemoGuideActivity extends Activity {
     private final String TAG = BNDemoGuideActivity.class.getName();
     private BNRoutePlanNode mBNRoutePlanNode = null;
     private BaiduNaviCommonModule mBaiduNaviCommonModule = null;
-    TTS tts = new TTS(this);
+    private Handler handler = null;
+    TTS tts = null;
    // AsrDialog asrDialog = new AsrDialog(this);
     /*
      * 对于导航模块有两种方式来实现发起导航。 1：使用通用接口来实现 2：使用传统接口来实现
@@ -48,11 +52,24 @@ public class BNDemoGuideActivity extends Activity {
      */
     // 是否使用通用接口
     private boolean useCommonInterface = true;
+    public static BNDemoGuideActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
+        handler = new Handler(){
 
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 1){
+//                    Handler_receive(msg);
+                    Log.d("NaviActivity", msg.toString());
+                }
+            }
+        };
+        tts = new TTS(this, handler);
         NaviUtils.activityList.add(this);
         createHandler();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -165,6 +182,18 @@ public class BNDemoGuideActivity extends Activity {
         }
     }
 
+    public void stopNavi(){
+//        onStop();
+//
+        mBaiduNaviCommonModule.onBackPressed(true);
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onConfigurationChanged(android.content.res.Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if(useCommonInterface) {
@@ -176,7 +205,6 @@ public class BNDemoGuideActivity extends Activity {
         }
 
     };
-
 
     @Override
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
@@ -239,7 +267,7 @@ public class BNDemoGuideActivity extends Activity {
                         BNRouteGuideManager.getInstance().showCustomizedLayer(false);
                     } else if (msg.what == MSG_RESET_NODE) {
                         BNRouteGuideManager.getInstance().resetEndNodeInNavi(
-                                new BNRoutePlanNode(116.21142, 40.85087, "百度大厦11", null, CoordinateType.GCJ02));
+                                new BNRoutePlanNode(112.556386, 432.979844, "南阳理工学院", null, CoordinateType.GCJ02));
                     }
                 };
             };
@@ -273,8 +301,6 @@ public class BNDemoGuideActivity extends Activity {
                 (bundle == null ? "" : bundle.toString())));
         switch (what) {
             case BNaviCommonParams.MessageType.EVENT_NAVIGATING_STATE_BEGIN:
-                Toast.makeText(this, "导航开始", Toast.LENGTH_SHORT).show();
-                tts.speak("导航开始");
                 break;
             case BNaviCommonParams.MessageType.EVENT_NAVIGATING_STATE_END:
                 break;

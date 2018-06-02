@@ -69,10 +69,10 @@ public class BNEventHandler {
             case BNaviCommonParams.MessageType.EVENT_NAVIGATING_STATE_END:
                 break;
             case BNaviCommonParams.MessageType.EVENT_GPS_LOCATED:
-                mEventDialog.updateLocateState(true);
+//                mEventDialog.updateLocateState(true);
                 break;
             case BNaviCommonParams.MessageType.EVENT_GPS_DISMISS:
-                mEventDialog.updateLocateState(false);
+//                mEventDialog.updateLocateState(false);
                 break;
             case BNaviCommonParams.MessageType.EVENT_ON_YAW_SUCCESS:
                 break;

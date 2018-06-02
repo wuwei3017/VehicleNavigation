@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -23,12 +25,12 @@ public class AsrDialog {
     Context context = null;
     String result = null;
     private SpeechRecognizer speechRecognizer;
+    private Handler mhandler = null;
 
 
-
-
-    public AsrDialog(Context context){
+    public AsrDialog(Context context, Handler handler){
         this.context = context;
+        this.mhandler = handler;
     }
 
 
@@ -124,9 +126,11 @@ public class AsrDialog {
 
             String text =  results.get("results_recognition").toString().replace("]", "").replace("[", "");
             //callBack.getResult(text);
-            String text1 =  results.get("results_recognition").toString();
+            String text1 = results.get("results_recognition").toString();
             //result =  text.split(",");
-            Toast.makeText(context, "text : "+ text1, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "text1 : "+ text1 + "   lenth:"+ text1.length(), Toast.LENGTH_SHORT).show();
+            Message message = mhandler.obtainMessage(1, text1.length(), 1, text1);
+            mhandler.sendMessage(message);
 
         }
         /**

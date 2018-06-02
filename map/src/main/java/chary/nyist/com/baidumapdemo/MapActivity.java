@@ -2,6 +2,7 @@ package chary.nyist.com.baidumapdemo;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.WindowManager;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
@@ -18,11 +19,15 @@ public class MapActivity extends Activity {
     private BaiduMap mBaiduMap = null;
     private BitmapDescriptor mCurrentMarker = null;
     private MyLocationConfiguration.LocationMode mCurrentMode = null;
+    public static MapActivity instance;
+    public static double latitude;
+    public static double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        instance = this;
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
@@ -33,7 +38,7 @@ public class MapActivity extends Activity {
         mBaiduMap.setMyLocationEnabled(true);
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         MyLocationData localData = new MyLocationData.Builder()
-                .latitude(32.979844).longitude(112.556386).build();
+                .latitude(latitude).longitude(longitude).build();
 //        MyLocationData localData = new MyLocationData(32.979844,112.556386, 0, 100, 0, 0);
 
         mBaiduMap.setMyLocationData(localData);
@@ -49,9 +54,13 @@ public class MapActivity extends Activity {
 
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(15));//默认显示比例
         mBaiduMap.setMyLocationConfiguration(config);
-
-
     }
+
+    void loc(){
+//        mSearch = GeoCoder.newInstance();
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
